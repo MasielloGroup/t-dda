@@ -9,5 +9,8 @@ This code calculates the steady-state temperature distribution of nanoparticles 
 Two input files are needed to calculate temperature profiles
 * var.par: Specifies the spatial extent and other system parameters.
 * tdda_input: Specifies the electric fields and polarizations for every (absorbing) point
+For specific requirements of these files, see https://www.overleaf.com/read/mrdzxbrwspqt.
 
-Please cite https://pubs.acs.org/doi/10.1021/jz500421z when using this code.
+
+Please cite https://pubs.acs.org/doi/10.1021/jz500421z when using this code. For some more (informal) notes, see: https://www.overleaf.com/read/mrdzxbrwspqt.
+
