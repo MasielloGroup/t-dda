@@ -59,7 +59,8 @@ int main(int argc, char *argv[]) {
 //	Reading in parameters. The parameter values are set in the "parameter list" file given as input to the program
 	int num_k = 0; //Number of materials that make up the target, e.g., for a target composed of a homogeneous material set num_k = 1 in the "parameter list" file
 	float *kappa; //kappa is the list of conductivities (the first element is the background conductivity)
-	float n_m = 0.0, lambda = 0.0, I_0 = 0.0, unit = 0.0, x_plane = 0.0;//n_m: background medium's index of refraction, lambda is the illuminating light's wavelength, I_0 is the intensity of the illuminating beam, and unit is the unit of length in nm that's used in the calculations
+	float n_m = 0.0, 
+	float lambda = 0.0, I_0 = 0.0, unit = 0.0, x_plane = 0.0;//n_m: background medium's index of refraction, lambda is the illuminating light's wavelength, I_0 is the intensity of the illuminating beam, and unit is the unit of length in nm that's used in the calculations
 	int d = 0, x_min = 0, x_max = 0, y_min = 0, y_max = 0, z_min = 0, z_max = 0; //d is the lattice spacing in units of "unit", the next six ints define the size of the grid on which calculations are done (the entire target should be included in the region defined by these values). 
 	int input_mode = 1; //Set input_mode = 1 to require that the input file of target points also give an index for each point's composition, i.e., if a target point has an index of i, then that point has a thermal conductivity given by *(kappa + i). If input_mode != 1, then all target points are assumed to be the same material.
 	printf("Initializing parameters\n");            
