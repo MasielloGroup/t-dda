@@ -1,0 +1,15 @@
+ DDSCAT --- DDSCAT 7.1.0 [10.03.03]   
+ TARGET --- Sphere shape                                                      
+ GPFAFT --- method of solution 
+ LATTDR --- prescription for polarizabilities
+ FROM_FILE --- shape 
+    515 = NAT0 = number of dipoles
+ /gscratch/chem/clairew4/dielectrics/au_Conor_0K.txt         
+   0.000   0.000 = beta_min, beta_max ;  NBETA = 1
+   0.000   0.000 = theta_min, theta_max; NTHETA= 1
+   0.000   0.000 = phi_min, phi_max   ;   NPHI = 1
+ 0.5000 = ETASCA (param. controlling # of scatt. dirs used to calculate <cos> etc.
+ Results averaged over    1 target orientations
+                   and  1 incident polarizations
+   aeff       wave       Q_ext     Q_abs      Q_sca     g(1)=<cos>  <cos^2>    Q_bk       Nsca
+5.0000E-03 5.0000E-01 3.1921E-01 3.1913E-01 8.1143E-05  5.3334E-04 4.0217E-01 9.6637E-06   214

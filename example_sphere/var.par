@@ -1,0 +1,19 @@
+num_k: 1 
+k_out: 0.6
+k_in: 314
+k_sub: 0.6
+lambda: 0.5000e-06
+n_m: 1.000
+I_0: 1e+9
+unit: 1.0
+
+d: 1
+x_min:  -25
+x_max:   0
+y_min:  -15
+y_max:  15
+z_min:  -15
+z_max:  15
+
+x_plane: -11
+input_mode: 1

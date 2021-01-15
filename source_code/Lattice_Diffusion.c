@@ -21,8 +21,6 @@ int main(int argc, char *argv[]) {
 	if (argc != 5) {
 		printf("Invalid syntax: Expected format is 'Lattice_Diffusion <Green's function value list> <parameter list> <input file name> <output file name>'\n");
 		return 1;
-        }else{
-	        printf("You have the appropriate number of files specified\n");
 	}
 
 	char *dat_name = argv[1];
@@ -57,35 +55,38 @@ int main(int argc, char *argv[]) {
 	int i, j, k;
 	
 //	Reading in parameters. The parameter values are set in the "parameter list" file given as input to the program
-	int num_k = 0; //Number of materials that make up the target, e.g., for a target composed of a homogeneous material set num_k = 1 in the "parameter list" file
-	float *kappa; //kappa is the list of conductivities (the first element is the background conductivity)
-	float n_m = 0.0, 
-	float lambda = 0.0, I_0 = 0.0, unit = 0.0, x_plane = 0.0;//n_m: background medium's index of refraction, lambda is the illuminating light's wavelength, I_0 is the intensity of the illuminating beam, and unit is the unit of length in nm that's used in the calculations
-	int d = 0, x_min = 0, x_max = 0, y_min = 0, y_max = 0, z_min = 0, z_max = 0; //d is the lattice spacing in units of "unit", the next six ints define the size of the grid on which calculations are done (the entire target should be included in the region defined by these values). 
-	int input_mode = 1; //Set input_mode = 1 to require that the input file of target points also give an index for each point's composition, i.e., if a target point has an index of i, then that point has a thermal conductivity given by *(kappa + i). If input_mode != 1, then all target points are assumed to be the same material.
-	printf("Initializing parameters\n");            
+	int num_k = 0; // Number of materials that make up the target, e.g., for a target composed of a homogeneous material set num_k = 1 in the "parameter list" file
+	float *kappa; // kappa is the list of conductivities (the first element is the background conductivity)
+	float n_m = 0.0; // background medium's index of refraction
+	float lambda = 0.0; // the illuminating light's wavelength
+	float I_0 = 0.0; // the intensity of the illuminating beam
+	float unit = 0.0; // unit of length in nm that's used in the calculations
+
+	float x_plane = 0.0; 
+	int d = 0; // the lattice spacing in units of "unit"
+	int x_min = 0, x_max = 0, y_min = 0, y_max = 0, z_min = 0, z_max = 0; //the size of the grid on which calculations are done (the entire target should be included in the region defined by these values). 
+	int input_mode = 0; // = 1 read in E's & P's from DDA; = 2 read in heat_pow per particle 
+
+
+	// printf("Initializing parameters\n");            
 	fscanf(par_id, "num_k: %d\n", &num_k);
 	kappa = (float *)malloc((num_k + 1)*sizeof(float));
 	fscanf(par_id, "k_out: %f\n", kappa);
 	for (i = 0; i < num_k; i++) {
 	  fscanf(par_id, "k_in: %f\n", kappa + i + 1);
-	  printf("%f\n", *(kappa+i));
 	}
 	fscanf(par_id, "k_sub: %f\n", kappa + num_k + 1);
 	fscanf(par_id, "lambda: %f\nn_m: %f\n", &lambda, &n_m);
 	fscanf(par_id, "I_0: %f\nunit: %f\n\n", &I_0, &unit);
 	fscanf(par_id, "d: %d\nx_min: %d\nx_max: %d\ny_min: %d\ny_max: %d\nz_min: %d\nz_max: %d\n\n", &d, &x_min, &x_max, &y_min, &y_max, &z_min, &z_max);
 	fscanf(par_id, "x_plane: %f\n", &x_plane);
-	
-	printf("%f %f %f %f %f %f %f\n", *kappa, *(kappa + 1), *(kappa + 2), *(kappa + 3) ,lambda*1e6, n_m, I_0);
-	printf("%d %d %d %d %d %d %d\n", d, x_min, x_max, y_min, y_max, z_min, z_max);
-	printf("%d\n", input_mode);
-	
-//      Calculating Substrate Ratios
+	fscanf(par_id, "input_mode: %d\n", &input_mode);
+
+//  Calculating Substrate Ratios
 	float upper = (*(kappa + num_k + 1) - *kappa)/(*(kappa + num_k + 1) + *kappa);
 	float lower = (*(kappa)*2)/(*(kappa + num_k + 1) + *kappa);
 
-	printf("%f %f\n",upper,lower);
+	// printf("%f %f\n",upper,lower);
 
 //	Defining additional variables
 	int num_x = (x_max - x_min)/d + 1;
@@ -123,19 +124,19 @@ int main(int argc, char *argv[]) {
 	int *material_ir = (int *)malloc(N_init_guess*sizeof(int)); //List of the corresponding material index of each target point
 	float *Q_ir = (float *)malloc(N_init_guess*sizeof(float)); //List of the corresponding heat source applied to each target point
 	int x, y, z;
-	int l, index, m_val;
-	size_t n, p;
+	int m_val;
 
 //	Reading in input file
-	float x_f, y_f, z_f, E_xr, E_xi, E_yr, E_yi, E_zr, E_zi, P_xr, P_xi, P_yr, P_yi, P_zr, P_zi;
+	float x_f, y_f, z_f, E_xr, E_xi, E_yr, E_yi, E_zr, E_zi, P_xr, P_xi, P_yr, P_yi, P_zr, P_zi, Q_byhand;
 	int x_tar_min = 0, x_tar_max = 0, y_tar_min = 0, y_tar_max = 0, z_tar_min = 0, z_tar_max = 0; //To speed up the rest of the calculation, we want to obtain the tightest bound on the region in which the target is contained. These bounds are given by these six ints.
 	
 	while (!feof(inp_id)) {
 		if (input_mode == 1) {
 		  fscanf(inp_id, "%f %f %f %d %f %f %f %f %f %f %f %f %f %f %f %f\n", &x_f, &y_f, &z_f, &m_val, &E_xr, &E_xi, &E_yr, &E_yi, &E_zr, &E_zi, &P_xr, &P_xi, &P_yr, &P_yi, &P_zr, &P_zi);
-		} else {
-			fscanf(inp_id, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n", &x_f, &y_f, &z_f, &E_xr, &E_xi, &E_yr, &E_yi, &E_zr, &E_zi, &P_xr, &P_xi, &P_yr, &P_yi, &P_zr, &P_zi);
+		} if (input_mode == 2) {
+			fscanf(inp_id, "%f %f %f %f\n", &x_f, &y_f, &z_f, &Q_byhand);
 			m_val = 1;
+
 		}
 		x = (x_f >= 0 ? (int)(x_f + 0.5) : (int)(x_f - 0.5));
 		y = (y_f >= 0 ? (int)(y_f + 0.5) : (int)(y_f - 0.5));
@@ -153,12 +154,21 @@ int main(int argc, char *argv[]) {
 		k = (z - z_min)/d;
 		*(initial_reading + N_init) = k + (num_z + 1)*(j + (num_y + 1)*i); //Each triplet giving a target point (i.e., (x, y, z)) is compressed into a single integer index, then stored
 		*(material_ir + N_init) = m_val;
-		*(Q_ir + N_init) = 4*M_PI*(2*M_PI*n_m/lambda)*I_0 * (unit*d) * (unit*d) * (unit*d) * (E_xr*P_xi - E_xi*P_xr + E_yr*P_yi - E_yi*P_yr + E_zr*P_zi - E_zi*P_zr) * (1e-18);
-                printf("%f ",*(Q_ir + N_init));
+		if (input_mode == 1) {
+			*(Q_ir + N_init) = 4*M_PI*(2*M_PI*n_m/lambda)*I_0 * (unit*d) * (unit*d) * (unit*d) * (E_xr*P_xi - E_xi*P_xr + E_yr*P_yi - E_yi*P_yr + E_zr*P_zi - E_zi*P_zr) * (1e-18);
+                // printf("%f ",*(Q_ir + N_init));
                 *(Q_ir + N_init) -= 8*M_PI/3.0*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*I_0*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(P_xr*P_xi + P_yr*P_yi + P_zr*P_zi)*(1e-45);
-                printf("%f\n",*(Q_ir + N_init));
+                // printf("%f\n",*(Q_ir + N_init));
+            }
+
+		if (input_mode == 2) {
+			*(Q_ir + N_init) = Q_byhand;
+			// printf("%f\n",*(Q_ir + N_init));
+
+			}
+
 		N_init++;
-		if (N_init >= N_init_guess) { //If the arrays have run out of room, then expand the memory allocated to them
+		if (N_init >= N_init_guess) { // If the arrays have run out of room, then expand the memory allocated to them
 			initial_reading = (int *)realloc(initial_reading, 2*N_init_guess*sizeof(int));
 			material_ir = (int *)realloc(material_ir, 2*N_init_guess*sizeof(int));
 			Q_ir = (float *)realloc(Q_ir, 2*N_init_guess*sizeof(float));
@@ -166,8 +176,11 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
-//	Sorting initial_reading (and material_ir and Q_ir) in order of increasing target point index, so that initial_reading contains entries in increasing order.
-//	This makes it easier to search for specific values in the array later.
+	int l, index;
+	size_t n, p;
+
+// 	Sorting initial_reading (and material_ir and Q_ir) in order of increasing target point index, so that initial_reading contains entries in increasing order.
+// 	This makes it easier to search for specific values in the array later.
 	float q_val;
 	int node_num; //Node #, i.e., location in array, of minimum index
 	for (n = 0; n < N_init; n++) {
@@ -553,6 +566,17 @@ int main(int argc, char *argv[]) {
 	int n_rhs = 1, info = 0;
 	int *ipiv = (int *)malloc(N_bound*sizeof(int));
 	float *Q_eff = (float *)malloc(N*sizeof(float));
+	printf("%lu\n", N_bound);
+	// printf("%lu\n", sizeof(&n_rhs));
+	// printf("%lu\n", sizeof(D));
+	// printf("%lu\n", sizeof(ipiv));
+	// printf("%lu\n", sizeof(Q_bound));
+	// printf("%lu\n", sizeof(&info));
+
+	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+
+
 	sgesv_(&N_bound, &n_rhs, D, &N_bound, ipiv, Q_bound, &N_bound, &info);
 	free(D);
 	for (n = 0; n < N; n++) {
@@ -563,6 +587,12 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
+
+	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+
+
+
 //	Writing header to output
 //	fprintf(out_id, "%d %d %d %d %d %d %d\n", d, x_min, x_max, y_min, y_max, z_min, z_max);
 //	fprintf(out_id, "%d %lu %lu %d\n", N, N_in, N_bound, N + N_out);
