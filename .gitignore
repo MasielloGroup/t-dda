@@ -4,3 +4,6 @@
 # emacs back-up files
 .#*
 .*~
+
+# Mac OS
+.DS_Store
