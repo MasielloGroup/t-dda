@@ -13,4 +13,6 @@ __pycache__
 
 # Output files
 *eV
-lattice_greenfunction/Green.num_300x300x300 
+
+# Tabulated Green Function file
+Green.num_300x300x300
