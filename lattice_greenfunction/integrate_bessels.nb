@@ -1,0 +1,140 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      4861,        132]
+NotebookOptionsPosition[      4295,        114]
+NotebookOutlinePosition[      4690,        130]
+CellTagsIndexPosition[      4647,        127]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.826115151610408*^9, 
+  3.82611515161091*^9}},ExpressionUUID->"3c706351-b8b8-4760-a66a-\
+e8b4f0b98ef6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"prec", "=", "6"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"maxgrid", "=", "20"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"G", "[", 
+    RowBox[{"l_", ",", " ", "m_", ",", " ", "n_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"NIntegrate", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Exp", "[", 
+        RowBox[{
+         RowBox[{"-", "3"}], "*", "x"}], "]"}], "*", 
+       RowBox[{"BesselI", "[", 
+        RowBox[{"l", ",", "x"}], "]"}], "*", 
+       RowBox[{"BesselI", "[", 
+        RowBox[{"m", ",", "x"}], "]"}], "*", 
+       RowBox[{"BesselI", "[", 
+        RowBox[{"n", ",", "x"}], "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "0", ",", "\[Infinity]"}], "}"}], ",", 
+      RowBox[{"MaxRecursion", "\[Rule]", "30"}], ",", 
+      RowBox[{"WorkingPrecision", "\[Rule]", "30"}], ",", 
+      RowBox[{"PrecisionGoal", "\[Rule]", "prec"}]}], "]"}], "*", 
+    RowBox[{"1", "/", "2"}]}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"str", "=", 
+   RowBox[{"OpenWrite", "[", "\"\<Green20.txt\>\"", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"WriteString", "[", 
+  RowBox[{"str", ",", 
+   RowBox[{"maxgrid", "+", "1"}], ",", " ", "\"\< \>\"", ",", " ", 
+   RowBox[{"maxgrid", "+", "1"}], ",", "\"\< \>\"", ",", " ", 
+   RowBox[{"maxgrid", "+", "1"}], ",", " ", "\"\<\\n\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"l", "=", "0"}], ",", " ", 
+   RowBox[{"l", "\[LessEqual]", "maxgrid"}], ",", " ", 
+   RowBox[{"l", "++"}], ",", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"m", "=", "0"}], ",", " ", 
+     RowBox[{"m", "\[LessEqual]", "maxgrid"}], ",", " ", 
+     RowBox[{"m", "++"}], ",", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"n", "=", "0"}], ",", " ", 
+       RowBox[{"n", "\[LessEqual]", "maxgrid"}], ",", " ", 
+       RowBox[{"n", "++"}], ",", "\n", 
+       RowBox[{"WriteString", "[", 
+        RowBox[{
+        "str", ",", "l", ",", "\"\< \>\"", ",", "m", ",", " ", "\"\< \>\"", 
+         ",", " ", "n", ",", " ", "\"\< \>\"", ",", 
+         RowBox[{"NumberForm", "[", 
+          RowBox[{
+           RowBox[{"G", "[", 
+            RowBox[{"l", ",", " ", "m", ",", " ", "n"}], "]"}], ",", " ", 
+           RowBox[{"{", 
+            RowBox[{"prec", ",", "prec"}], "}"}]}], "]"}], ",", 
+         "\"\<\\n\>\""}], "]"}]}], "\n", "]"}]}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Close", "[", "str", "]"}]}], "Input",
+ CellChangeTimes->{{3.826115282855723*^9, 3.8261152973445997`*^9}, {
+   3.826115327633246*^9, 3.8261154801210327`*^9}, {3.826116402455003*^9, 
+   3.826116453836174*^9}, {3.826116646427514*^9, 3.8261166571685266`*^9}, {
+   3.826132636033022*^9, 3.82613264948494*^9}, {3.8261326884058104`*^9, 
+   3.826132689883885*^9}, {3.826132722187517*^9, 3.82613275258829*^9}, {
+   3.8261327852164803`*^9, 3.826132942104288*^9}, {3.826132976970771*^9, 
+   3.8261330359947577`*^9}, {3.8261330673164673`*^9, 3.826133101408287*^9}, {
+   3.826133134640409*^9, 3.826133270444153*^9}, {3.826133307211152*^9, 
+   3.826133342948987*^9}, 3.826133389018711*^9},
+ CellLabel->
+  "In[115]:=",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+
+Cell[BoxData["\<\"Green20.txt\"\>"], "Output",
+ CellChangeTimes->{3.82613327797823*^9, 3.826133311795628*^9, 
+  3.826133348485507*^9, 3.8261341935148582`*^9},
+ CellLabel->
+  "Out[122]=",ExpressionUUID->"8d67c028-b0e2-46d1-a0ab-c214c42d5651"]
+}, Open  ]]
+},
+WindowSize->{891, 699},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"febd6261-d115-4dbd-b54f-ce21702a9c71"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 151, 3, 30, "Input",ExpressionUUID->"3c706351-b8b8-4760-a66a-e8b4f0b98ef6"],
+Cell[CellGroupData[{
+Cell[734, 27, 3301, 78, 283, "Input",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+Cell[4038, 107, 241, 4, 34, "Output",ExpressionUUID->"8d67c028-b0e2-46d1-a0ab-c214c42d5651"]
+}, Open  ]]
+}
+]
+*)
+

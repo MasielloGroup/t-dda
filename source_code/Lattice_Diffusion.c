@@ -86,8 +86,6 @@ int main(int argc, char *argv[]) {
 	float upper = (*(kappa + num_k + 1) - *kappa)/(*(kappa + num_k + 1) + *kappa);
 	float lower = (*(kappa)*2)/(*(kappa + num_k + 1) + *kappa);
 
-	// printf("%f %f\n",upper,lower);
-
 //	Defining additional variables
 	int num_x = (x_max - x_min)/d + 1;
 	int num_y = (y_max - y_min)/d + 1;
@@ -116,7 +114,25 @@ int main(int argc, char *argv[]) {
 		fscanf(dat_id, "%d %d %d %f\n", &i, &j, &k, &dat_val);
 		*(G_r + i + x_lim*j + x_lim*y_lim*k) = dat_val;
 	}
-	
+
+	// If your lattice Green's function grid is too small, the calculation cannot run
+	// and these error messages will be triggered. 
+
+	if (num_x > x_lim) {
+		printf("ERROR: Shape points extend greater than Lattice Green grid.\n");
+		return 0;
+	}
+
+	if (num_y > y_lim) {
+		printf("ERROR: Shape points extend greater than Lattice Green grid.\n");
+		return 0;
+	}
+	if (num_z > z_lim) {
+		printf("ERROR: Shape points extend greater than Lattice Green grid.\n");
+		return 0;
+	}
+
+
 //	Declaring useful variables
 	int N_init = 0; //Counts the number of target points in the input file
 	int N_init_guess = 200000; //Initial guess as to how many target points are in the input file
@@ -132,12 +148,13 @@ int main(int argc, char *argv[]) {
 	
 	while (!feof(inp_id)) {
 		if (input_mode == 1) {
-		  fscanf(inp_id, "%f %f %f %d %f %f %f %f %f %f %f %f %f %f %f %f\n", &x_f, &y_f, &z_f, &m_val, &E_xr, &E_xi, &E_yr, &E_yi, &E_zr, &E_zi, &P_xr, &P_xi, &P_yr, &P_yi, &P_zr, &P_zi);
-		} if (input_mode == 2) {
+			fscanf(inp_id, "%f %f %f %d %f %f %f %f %f %f %f %f %f %f %f %f\n", &x_f, &y_f, &z_f, &m_val, &E_xr, &E_xi, &E_yr, &E_yi, &E_zr, &E_zi, &P_xr, &P_xi, &P_yr, &P_yi, &P_zr, &P_zi);
+		} 
+		if (input_mode == 2) {
 			fscanf(inp_id, "%f %f %f %f\n", &x_f, &y_f, &z_f, &Q_byhand);
 			m_val = 1;
-
 		}
+
 		x = (x_f >= 0 ? (int)(x_f + 0.5) : (int)(x_f - 0.5));
 		y = (y_f >= 0 ? (int)(y_f + 0.5) : (int)(y_f - 0.5));
 		z = (z_f >= 0 ? (int)(z_f + 0.5) : (int)(z_f - 0.5));
@@ -156,16 +173,12 @@ int main(int argc, char *argv[]) {
 		*(material_ir + N_init) = m_val;
 		if (input_mode == 1) {
 			*(Q_ir + N_init) = 4*M_PI*(2*M_PI*n_m/lambda)*I_0 * (unit*d) * (unit*d) * (unit*d) * (E_xr*P_xi - E_xi*P_xr + E_yr*P_yi - E_yi*P_yr + E_zr*P_zi - E_zi*P_zr) * (1e-18);
-                // printf("%f ",*(Q_ir + N_init));
                 *(Q_ir + N_init) -= 8*M_PI/3.0*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*(2*M_PI*n_m/lambda)*I_0*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(unit*d)*(P_xr*P_xi + P_yr*P_yi + P_zr*P_zi)*(1e-45);
-                // printf("%f\n",*(Q_ir + N_init));
-            }
+        }
 
 		if (input_mode == 2) {
 			*(Q_ir + N_init) = Q_byhand;
-			// printf("%f\n",*(Q_ir + N_init));
-
-			}
+		}
 
 		N_init++;
 		if (N_init >= N_init_guess) { // If the arrays have run out of room, then expand the memory allocated to them
@@ -562,44 +575,29 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
-//	Calculating "effective heat", i.e., bound charges
+//~~ Calculating "effective heat", i.e., bound charges ~~//
 	int n_rhs = 1, info = 0;
 	int *ipiv = (int *)malloc(N_bound*sizeof(int));
 	float *Q_eff = (float *)malloc(N*sizeof(float));
-	printf("%lu\n", N_bound);
-	// printf("%lu\n", sizeof(&n_rhs));
-	// printf("%lu\n", sizeof(D));
-	// printf("%lu\n", sizeof(ipiv));
-	// printf("%lu\n", sizeof(Q_bound));
-	// printf("%lu\n", sizeof(&info));
-
-	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-
-
 	sgesv_(&N_bound, &n_rhs, D, &N_bound, ipiv, Q_bound, &N_bound, &info);
 	free(D);
+
 	for (n = 0; n < N; n++) {
-		if (n < N_in) { //If the current point is an interior point
-			*(Q_eff + n) = (*kappa)/(*(kappa + *(material + n)))*(*(Q + n)); //The heat source at this point is simply reduced by a factor of the target conductivity
+		// If the current point is an interior point
+		if (n < N_in) { 
+			// The heat source at this point is simply reduced by a factor of the target conductivity
+			*(Q_eff + n) = (*kappa)/(*(kappa + *(material + n)))*(*(Q + n)); 
 		} else {
-			*(Q_eff + n) = *(Q_bound + n - N_in); //The heat source is that computed above by solving the system of equations D*Q_eff = Q_bound
+			// The heat source is that computed above by solving the system of equations D*Q_eff = Q_bound
+			*(Q_eff + n) = *(Q_bound + n - N_in); 
 		}
 	}
 	
 
-	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-	// ~!!!!!!!!!!!!!!!!!!!!!!!!!!!! ~HERE~ !!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-
-
-
-//	Writing header to output
-//	fprintf(out_id, "%d %d %d %d %d %d %d\n", d, x_min, x_max, y_min, y_max, z_min, z_max);
-//	fprintf(out_id, "%d %lu %lu %d\n", N, N_in, N_bound, N + N_out);
-	
-//	Calculating and writing out temperatures
+//~~ Calculate and write out temperatures ~~//
 	float *T = (float *)calloc(N + N_out, sizeof(float));
-	for (n = 0; n < N + N_out; n++) { //Iterate through every point at which we want to determine the temperature
+	// Iterate through every point at which we want to determine the temperature
+	for (n = 0; n < N + N_out; n++) { 
 		if (n < N_in) {
 			d_index = *(interior_points + n);
 		} else if (n < N) {
@@ -611,7 +609,8 @@ int main(int argc, char *argv[]) {
 		d_y = y_coords[(d_index % ((num_z + 1)*(num_y + 1)))/(num_z + 1)];
 		d_z = z_coords[d_index % (num_z + 1)];
 		
-		for (l = 0; l < N; l++) { //Iterate through every point at which there is a heat source
+		 // Iterate through every point at which there is a heat source
+		for (l = 0; l < N; l++) {
 			if (l < N_in) {
 				s_index = *(interior_points + l);
 			} else {
@@ -626,14 +625,12 @@ int main(int argc, char *argv[]) {
 			}else{			  
 			  *(T + n) += 1/((*kappa)*unit*d)*( lower*(*(G_r + abs(d_x - s_x) + x_lim*abs(d_y - s_y) + x_lim*y_lim*abs(d_z - s_z))))*(*(Q_eff + l)); //This source point's contribution to the temperature at (d_x, d_y, d_z) is simply its effective heat multiplied by the Green's function value that takes (s_x, s_y, s_z) to (d_x, d_y, d_z)
 			}
-
-
-
 		}
 		
 		if (n < N) {
 			fprintf(out_id, "%d %d %d %f %f %f\n", d_x, d_y, d_z, *(T + n), *(Q + n), *(Q_eff + n));
-		} else {
+		} 
+		else {
 			fprintf(out_id, "%d %d %d %f %f %f\n", d_x, d_y, d_z, *(T + n), 0.0, 0.0);
 		}
 	}
