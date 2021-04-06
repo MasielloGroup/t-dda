@@ -14,5 +14,6 @@ __pycache__
 # Output files
 *eV
 
-# Tabulated Green Function file
-Green.num_300x300x300
+# In progress work
+troubleshoot_lattice_greens
+analytic_sphere

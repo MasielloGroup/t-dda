@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      4861,        132]
-NotebookOptionsPosition[      4295,        114]
-NotebookOutlinePosition[      4690,        130]
-CellTagsIndexPosition[      4647,        127]
+NotebookDataLength[      4966,        132]
+NotebookOptionsPosition[      4395,        114]
+NotebookOutlinePosition[      4795,        130]
+CellTagsIndexPosition[      4752,        127]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -57,7 +57,7 @@ Cell[BoxData[{
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"str", "=", 
-   RowBox[{"OpenWrite", "[", "\"\<Green20.txt\>\"", "]"}]}], 
+   RowBox[{"OpenWrite", "[", "\"\<Green_grid20.txt\>\"", "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"WriteString", "[", 
   RowBox[{"str", ",", 
@@ -101,19 +101,19 @@ Cell[BoxData[{
    3.8261327852164803`*^9, 3.826132942104288*^9}, {3.826132976970771*^9, 
    3.8261330359947577`*^9}, {3.8261330673164673`*^9, 3.826133101408287*^9}, {
    3.826133134640409*^9, 3.826133270444153*^9}, {3.826133307211152*^9, 
-   3.826133342948987*^9}, 3.826133389018711*^9},
- CellLabel->
-  "In[115]:=",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+   3.826133342948987*^9}, 3.826133389018711*^9, {3.826728094629108*^9, 
+   3.826728095932412*^9}, {3.826729516734745*^9, 
+   3.826729522675014*^9}},ExpressionUUID->"8312b16e-8847-4a02-8604-\
+26afc9bf0a4f"],
 
-Cell[BoxData["\<\"Green20.txt\"\>"], "Output",
+Cell[BoxData["\<\"Green20_new.txt\"\>"], "Output",
  CellChangeTimes->{3.82613327797823*^9, 3.826133311795628*^9, 
-  3.826133348485507*^9, 3.8261341935148582`*^9},
- CellLabel->
-  "Out[122]=",ExpressionUUID->"8d67c028-b0e2-46d1-a0ab-c214c42d5651"]
+  3.826133348485507*^9, 3.8261341935148582`*^9, 3.826728910652471*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"94d04667-af95-4ef4-9da1-c5a9642b248c"]
 }, Open  ]]
 },
 WindowSize->{891, 699},
-WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+WindowMargins->{{Automatic, 215}, {-236, Automatic}},
 FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"febd6261-d115-4dbd-b54f-ce21702a9c71"
@@ -131,8 +131,8 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 151, 3, 30, "Input",ExpressionUUID->"3c706351-b8b8-4760-a66a-e8b4f0b98ef6"],
 Cell[CellGroupData[{
-Cell[734, 27, 3301, 78, 283, "Input",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
-Cell[4038, 107, 241, 4, 34, "Output",ExpressionUUID->"8d67c028-b0e2-46d1-a0ab-c214c42d5651"]
+Cell[734, 27, 3380, 79, 283, "Input",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+Cell[4117, 108, 262, 3, 34, "Output",ExpressionUUID->"94d04667-af95-4ef4-9da1-c5a9642b248c"]
 }, Open  ]]
 }
 ]
