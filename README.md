@@ -8,7 +8,7 @@ This code calculates the steady-state temperature distribution of nanoparticles 
 ### Step 2: Preparing input files
 Two input files are needed to calculate temperature profiles, a parameter file and an input file. The parameter file, called `var.par` in the examples, specifies system parameters. The input file, called `tdda_input` in the examples, can take on two forms. It can either specify the absorption cross secction or the electric fields and polarizations. The user can choose which input they'd prefer to provide. Each example is provided in the `example_sphere` folder.
 
-### Step 3: Running t-DDA
+### Step 3: Running `t-dda`
 Once the input files are prepared and the lattice Green function values are tabulated, you are ready to run the code. Please note the following:
 * All particles must start at lattice site x = -1 and continue into the negative x plane. This is because the semi-infinite substrate has been hard-coded to start at x = 0 and continue into the positive plane.
 * If you are a new user of DDSCAT and/or do not wish to edit Draine's DDSCAT to produce the correct forms of the input files, you can use a version of DDSCAT we have already modified. This version can be found in [this repo](http://github.com/MasielloGroup/g-dda).
