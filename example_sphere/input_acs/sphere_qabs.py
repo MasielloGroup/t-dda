@@ -16,9 +16,9 @@ for row in range(0, len(all_points[:,0])): #loops through each x, y, z coordinat
     y = all_points[row, 1]
     z = all_points[row, 2]
     if x**2 + y**2 + z**2  <= radius**2 : # checks if the x, y, z point should be a sphere point                                            
-        Xval = np.append(Xval, np.int(x)) # adds this point to the array which will be used to write the shape file                        
-        Yval = np.append(Yval, np.int(y)) # adds this point to the array which will be used to write the shape file                        
-        Zval = np.append(Zval, np.int(z)) # adds this point to the array which will be used to write the shape file                        
+        Xval = np.append(Xval, int(x)) # adds this point to the array which will be used to write the shape file                        
+        Yval = np.append(Yval, int(y)) # adds this point to the array which will be used to write the shape file                        
+        Zval = np.append(Zval, int(z)) # adds this point to the array which will be used to write the shape file                        
         Xshifted = Xval - max(Xval) - 1
 
 

@@ -4,7 +4,7 @@ CFLAGS=-c -Wall -iquote/usr/local/lib/include
 all: TDDA
 
 TDDA: Lattice_Diffusion.o find_neighbor.o
-	$(CC) Lattice_Diffusion.o find_neighbor.o -o Lattice_Diffusion -L/usr/local/gfortran/lib -lgfortran -llapack -lblas -lm
+	$(CC) Lattice_Diffusion.o find_neighbor.o -o Lattice_Diffusion -L/usr/local/bin -lgfortran -llapack -lblas -lm
 
 Lattice_Diffusion.o: Lattice_Diffusion.c
 	$(CC) $(CFLAGS) Lattice_Diffusion.c
