@@ -17,7 +17,6 @@ lattice_greenfunction/Green_grid300.txt
 
 # In progress work
 troubleshoot_lattice_greens
-analytic_sphere
 larger_greens
 
 # Executables
