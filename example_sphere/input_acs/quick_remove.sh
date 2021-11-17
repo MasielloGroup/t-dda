@@ -1,10 +1,14 @@
 #!/bin/bash
-rm -r *eV
-rm -r __pycache__
 rm *~
 rm *#*
-rm Spectrum
-rm shape.dat
 rm temp.out
 rm tdda_input
-rm qtable
+rm *table*
+rm Integration*
+rm EBsca*
+rm ddfield.in
+rm Einc*
+rm slurm-*
+rm temp-shift*
+rm a.out
+rm output.txt
