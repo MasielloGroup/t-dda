@@ -1,8 +1,8 @@
 num_k: 1
-k_out: 0.3
+k_out: 0.598
 k_in: 314
-k_sub: 0.3
-lambda: 0.5149e-06
+k_sub: 0.598
+lambda: 5.32e-07
 n_m: 1.
 I_0: 1e+9
 unit: 1.0

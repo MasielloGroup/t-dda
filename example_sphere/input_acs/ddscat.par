@@ -11,9 +11,9 @@
  'FROM_FILE' = CSHAPE*9 shape directive
  no SHPAR parameters needed
  1         = NCOMP = number of dielectric materials
- '../auJC.tab' = file with refractive index 1
+ 'auJC.tab' = file with refractive index 1
  '**** Additional Nearfield calculation? ****'
- 2 = NRFLD (=0 to skip nearfield calc., =1 to calculate nearfield E, =2 to calculate nearfield E and B)
+ 0 = NRFLD (=0 to skip nearfield calc., =1 to calculate nearfield E, =2 to calculate nearfield E and B)
  0.0 0.0 0.0 0.0 0.0 0.0 (fract. extens. of calc. vol. in -x,+x,-y,+y,-z,+z)
  '**** Error Tolerance ****'
  1.00e-5 = TOL = MAX ALLOWED (NORM OF |G>=AC|E>-ACA|X>)/(NORM OF AC|E>)
@@ -24,7 +24,7 @@
  '**** Angular resolution for calculation of <cos>, etc. ****'
  0.5    = ETASCA (number of angles is proportional to [(3+x)/ETASCA]^2 )
  '**** Vacuum wavelengths (micron) ****'
- 0.500 0.500 1 'INV' = wavelengths (first,last,how many,how=LIN,INV,LOG)
+ 0.532 0.532 1 'INV' = wavelengths (first,last,how many,how=LIN,INV,LOG)
  '**** Gaussian beam parameters (unit = dipole spacing)'
  0  = FLGWAV: Option for wavefront: 0 -- Plane wave; 1 -- Gaussian beam
  0.00, 0.00, 0.00 = xyzc0, center of Gaussian beam waist, unit = dipole spacing
