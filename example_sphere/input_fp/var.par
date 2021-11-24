@@ -2,18 +2,18 @@ num_k: 1
 k_out: 0.3
 k_in: 314
 k_sub: 0.3
-lambda: 0.5149e-06
+lambda: 0.505e-06
 n_m: 1.
 I_0: 1e+9
 unit: 1.0
 
 d: 1
-x_min: -15
+x_min: -25
 x_max: 1
-y_min: -8
-y_max: 8
-z_min: -8
-z_max: 8
+y_min: -13
+y_max: 13
+z_min: -13
+z_max: 13
 
-x_plane: -6
+x_plane: -12
 input_mode: 1

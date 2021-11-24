@@ -75,7 +75,7 @@ class SingleDipole:
         idx_sca = np.where(C_sca == max(C_sca))
         return self.selected_waves[idx_abs][0], C_abs[idx_abs][0], self.selected_waves[idx_sca][0], C_sca[idx_sca][0]
 
-    def T_int(self, kap_out, kap_in, I0, mie_or_dda,c_abs=[],a_eff=[]):
+    def T_int(self, kap_out, kap_in, I0, mie_or_dda, wave_dda=str()):
         ''' Temperature of a single sphere
         kap_out: thermal conductivity of background [W/(m*K)] 
         kap_in: thermal conductivity of sphere [W/(m*K)] 
@@ -85,6 +85,10 @@ class SingleDipole:
         if mie_or_dda == 'mie':
             Q = self.cross_sects()*(1/100)**2*I0 # [W]
         if mie_or_dda == 'dda':
+            # wave_dda = str('0.505')
+            tdda_data = np.loadtxt(str(str('../input_fp/') + wave_dda + str('_um/qtable')),skiprows=14)
+            a_eff = tdda_data[0]
+            c_abs = tdda_data[3]
             abs_cross = c_abs*np.pi*a_eff**2 # um^2
             Q = abs_cross*(1/1E6)**2*I0
         radius_m = self.radius*(1/100) #[m]

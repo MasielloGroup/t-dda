@@ -3,19 +3,30 @@
 #include <math.h>
 #include "lattice_prototypes.h"
 
-//	This code implements the T-DDA. Author: Chris Baldwin
-//	This program computes steady-state temperature distributions for an externally-illuminated target (represented by a finite list of points on a cubic lattice) immersed in a homogeneous background.
-//	The syntax for running this program is as follows: 'Lattice_Diffusion <Green's function value list> <parameter list> <input file name> <output file name>'
+//	This code implements the T-DDA. Author: Chris Baldwin, enhanced by Claire A. West.
+//	This program computes steady-state temperature distributions for an externally-illuminated target
+//  (represented by a finite list of points on a cubic lattice) immersed in a homogeneous background.
+//	The syntax for running this program is as follows: 
+//  'Lattice_Diffusion <Green's function value list> <parameter list> <input file name> <output file name>'
 //	What should be in each input is as follows:
-//		-<Green's funion value list>: A list of the lattice Green's function values for a cubic lattice, as described in the paper "Application of the Lattice Green's Function for Calculating the Resistance of an Infinite Network of Resistors" by Jozsef Cserti, published in AJP, volume 68, pg. 896, in 2000.
-//										The list should be formatted as follows: "%d %d %d %f\n", where the first three integers (which should be non-negative) give the position of each point relative to a source at the origin, and the fourth number gives the value of the lattice Green's function at that point.
-//		-<parameter list>: 	A list of the parameter values to be used in the calculation. A description of the parameters is given below.
+//		-<Green's funion value list>: A list of the lattice Green's function values for a cubic lattice, 
+//									  as described in the paper "Application of the Lattice Green's Function 
+//									  for Calculating the Resistance of an Infinite Network of Resistors" by 
+// 									  Jozsef Cserti, published in AJP, volume 68, pg. 896, in 2000.
+//									  The list should be formatted as follows: "%d %d %d %f\n", where the 
+// 									  first three integers (which should be non-negative) give the position of 
+// 									  each point relative to a source at the origin, and the fourth number gives 
+//									  the value of the lattice Green's function at that point.
+//		-<parameter list>: 	A list of the parameter values to be used in the calculation. A description of the 
+//							parameters is given below.
 //		-<input file name>: The location of the file containing the target geometry and heat source.
-//							This file should be formatted in one of two ways, depending on the value of 'input_mode' in the parameter list.
-//							If input_mode == 1, then each line of this file should be of the form: "%f %f %f %d %f %f %f %f %f %f\n". The first three floats are the positions of each point in the target (in units of the lattice spacing), the next int is an index for the composition of that point, and the next six floats give the real and imaginary parts of each component of the electric field at that point (which should include the scattered electric field).
+//							This file should be formatted in one of two ways, depending on the value of 'input_mode' 
+//							in the parameter list.
+//							If input_mode == 1, then each line of this file should be of the form: 
+//							"%f %f %f %d %f %f %f %f %f %f\n". The first three floats are the positions of each point in the target (in units of the lattice spacing), the next int is an index for the composition of that point, and the next six floats give the real and imaginary parts of each component of the electric field at that point (which should include the scattered electric field).
 //							If input_mode != 1, then each line of this file should be of the form: "%f %f %f %f %f %f %f %f %f\n". The first three floats are the positions of each point in the target, and the next six floats are the real and imaginary parts of each component of the electric field at that point (which should include the scattered electric field).
-//		-<output file name>: 	The location of the file to write the output into (existing files will be overwritten).
-//								Each line of the output file is of the form: "%d %d %d %f %f %f\n", where the first three integers are the positions of each point in the target (in units of the lattice spacing), the next float is the temperature at that point, then the original heat source at that point, and finally the "effective heat source" at that point, i.e., the heat source including the thermal equivalent of "bound charges".
+//		-<output file name>: The location of the file to write the output into (existing files will be overwritten).
+//							 Each line of the output file is of the form: "%d %d %d %f %f %f\n", where the first three integers are the positions of each point in the target (in units of the lattice spacing), the next float is the temperature at that point, then the original heat source at that point, and finally the "effective heat source" at that point, i.e., the heat source including the thermal equivalent of "bound charges".
 
 int main(int argc, char *argv[]) {
 	if (argc != 5) {
@@ -575,7 +586,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
-//~~ Calculating "effective heat", i.e., bound charges ~~//
+	//~~ Calculating "effective heat", i.e., bound charges ~~//
 	int n_rhs = 1, info = 0;
 	int *ipiv = (int *)malloc(N_bound*sizeof(int));
 	float *Q_eff = (float *)malloc(N*sizeof(float));
@@ -594,7 +605,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 
-//~~ Calculate and write out temperatures ~~//
+	//~~ Calculate and write out temperatures ~~//
 	float *T = (float *)calloc(N + N_out, sizeof(float));
 	// Iterate through every point at which we want to determine the temperature
 	for (n = 0; n < N + N_out; n++) { 

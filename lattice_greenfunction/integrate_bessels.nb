@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     11316,        291]
-NotebookOptionsPosition[     10652,        272]
-NotebookOutlinePosition[     11048,        288]
-CellTagsIndexPosition[     11005,        285]
+NotebookDataLength[     11356,        291]
+NotebookOptionsPosition[     10698,        272]
+NotebookOutlinePosition[     11089,        288]
+CellTagsIndexPosition[     11046,        285]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -30,7 +30,7 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"prec", "=", "6"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"maxgrid", "=", "300"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"maxgrid", "=", "100"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"G", "[", 
    RowBox[{"l_", ",", " ", "m_", ",", " ", "n_"}], "]"}], ":=", 
@@ -170,9 +170,8 @@ Cell[BoxData[{
   RowBox[{"str", "=", 
    RowBox[{
    "OpenWrite", "[", 
-    "\"\</Users/clairewest/werk/research/my_codes/git_repos_masiello/t-dda/\
-lattice_greenfunction/Green_grid300.txt\>\"", "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+    "\"\</Users/clairewest/werk/research/my_codes/claires_t-dda/lattice_\
+greenfunction/Green_grid100.txt\>\"", "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"WriteString", "[", 
    RowBox[{"str", ",", 
@@ -254,15 +253,16 @@ lattice_greenfunction/Green_grid300.txt\>\"", "]"}]}],
    3.8268342938497343`*^9}, {3.826834340666737*^9, 3.8268343788674517`*^9}, {
    3.826834475334774*^9, 3.826834534559622*^9}, {3.826834660949617*^9, 
    3.8268346952803087`*^9}, {3.826834824763941*^9, 3.826834871507023*^9}, {
-   3.827354901074133*^9, 3.827354905586685*^9}},
- CellLabel->"In[21]:=",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+   3.827354901074133*^9, 3.827354905586685*^9}, {3.846764967817368*^9, 
+   3.846764984082199*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
 
-Cell[BoxData["\<\"/Users/clairewest/werk/research/my_codes/git_repos_masiello/\
-t-dda/lattice_greenfunction/Green_grid300.txt\"\>"], "Output",
+Cell[BoxData["\<\"/Users/clairewest/werk/research/my_codes/claires_t-dda/\
+lattice_greenfunction/Green_grid100.txt\"\>"], "Output",
  CellChangeTimes->{3.82683461561091*^9, 3.8268347551388493`*^9, 
   3.826837900874998*^9, 3.8273624923377047`*^9, 3.827405506668468*^9, 
-  3.8275217030883093`*^9},
- CellLabel->"Out[30]=",ExpressionUUID->"0091ebdf-f9b6-4818-b009-8326d15aeca0"]
+  3.8275217030883093`*^9, 3.846765107072421*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"a28f64f9-61fc-4f90-821d-601f8f619e32"]
 }, Open  ]],
 
 Cell[BoxData[":"], "Input",
@@ -272,7 +272,7 @@ Cell[BoxData[":"], "Input",
 },
 WindowSize->{891, 699},
 WindowMargins->{{Automatic, 15}, {Automatic, 0}},
-FrontEndVersion->"12.2 for Mac OS X x86 (64-bit) (December 12, 2020)",
+FrontEndVersion->"12.3 for Mac OS X ARM (64-bit) (July 9, 2021)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"febd6261-d115-4dbd-b54f-ce21702a9c71"
 ]
@@ -289,10 +289,10 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 151, 3, 30, "Input",ExpressionUUID->"3c706351-b8b8-4760-a66a-e8b4f0b98ef6"],
 Cell[CellGroupData[{
-Cell[734, 27, 9359, 230, 808, "Input",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
-Cell[10096, 259, 384, 5, 104, "Output",ExpressionUUID->"0091ebdf-f9b6-4818-b009-8326d15aeca0"]
+Cell[734, 27, 9394, 230, 787, "Input",ExpressionUUID->"8312b16e-8847-4a02-8604-26afc9bf0a4f"],
+Cell[10131, 259, 395, 5, 82, "Output",ExpressionUUID->"a28f64f9-61fc-4f90-821d-601f8f619e32"]
 }, Open  ]],
-Cell[10495, 267, 153, 3, 30, "Input",ExpressionUUID->"54f00a4f-51fd-4514-b90f-3ceb2f5e8a97"]
+Cell[10541, 267, 153, 3, 30, "Input",ExpressionUUID->"54f00a4f-51fd-4514-b90f-3ceb2f5e8a97"]
 }
 ]
 *)

@@ -6,7 +6,7 @@
  'GKDLDR' = CALPHA*6 (GKDLDR, LATTDR, FLTRCD) -- DDA method
  'NOTBIN' = CBINFLAG (NOTBIN, ORIBIN, ALLBIN)
  '**** Initial Memory Allocation ****'
- 40 40 40 = dimensioning allowance for target generation
+ 60 60 60 = dimensioning allowance for target generation
  '**** Target Geometry and Composition ****'
  'FROM_FILE' = CSHAPE*9 shape directive
  no SHPAR parameters needed
@@ -32,7 +32,7 @@
  '**** Refractive index of ambient medium'
  1. = NAMBIENT
  '**** Effective Radii (micron) **** '
- 0.005 0.005 1 'LIN' = eff. radii (first, last, how many, how=LIN,INV,LOG)
+ 0.010 0.010 1 'LIN' = eff. radii (first, last, how many, how=LIN,INV,LOG)
  '**** Define Incident Polarizations ****'
  (0,0) (1.,0.) (0.,0.) = Polarization state e01 (k along x axis)
  1 = IORTH  (=1 to do only pol. state e01; =2 to also do orth. pol. state)
